@@ -7,6 +7,8 @@ Nyt: <div id="current_price"></div>
 3h päästä: <div id="3h_price"></div>
 Halvimmat tunnit tänään: <div id="cheap_hours"></div>
 Kalleimmat tunnit tänään: <div id="exp_hours"></div>
+<br /><br />
+Kaikki tunnit tänään: <div id="all_hours"></div>
 
 <script>
 var tresholds = [
@@ -57,11 +59,14 @@ var showPrices = (dailyData) => {
 	setHourData('1h_price',dailyData[getDateAndTime(1)[0]][getDateAndTime(1)[1]]);
 	setHourData('2h_price',dailyData[getDateAndTime(2)[0]][getDateAndTime(2)[1]]);
 	setHourData('3h_price',dailyData[getDateAndTime(3)[0]][getDateAndTime(3)[1]]);
-	setExtremesData('cheap_hours',
+	setRangedData('cheap_hours',
 		getSortedTimesByPrice(dailyData[getDateAndTime(0)[0]]).slice(0,5),
 		dailyData[getDateAndTime(0)[0]]);
-	setExtremesData('exp_hours',
+	setRangedData('exp_hours',
 		getSortedTimesByPrice(dailyData[getDateAndTime(0)[0]]).slice(-5),
+		dailyData[getDateAndTime(0)[0]]);
+	setRangedData('all_hours',
+		Object.keys(dailyData[getDateAndTime(0)[0]]).sort(),
 		dailyData[getDateAndTime(0)[0]]);
 	if(getDateAndTime(24)[0] in dailyData){
 		setText('writted_summary',getSummary(dailyData[getDateAndTime(0)[0]],'Tänään') + getSummary(dailyData[getDateAndTime(24)[0]],', huomenna'));
@@ -88,7 +93,7 @@ var setHourData = (id, data) => {
 
 var setText = (id, text) => document.getElementById(id).innerHTML = text;
 
-var setExtremesData = (id, sortedKeys, dayData) => {
+var setRangedData = (id, sortedKeys, dayData) => {
 	let e = document.getElementById(id);
 	sortedKeys.map((v) => {
 		let e2 = document.createElement("span");
