@@ -14,7 +14,8 @@ Kaikki tunnit tänään: <div id="all_hours"></div>
 var tresholds = [
 	{color:'#D5F5E3', text: 'halpaa', 					min:-99999.99, 	max:2.499},
 	{color:'#FCF3CF', text: 'kohtalaisen hintaista',	min:2.50, 		max:4.999},
-	{color:'#F5B7B1', text: 'kallista',					min:5.00, 		max:99999.99}
+	{color:'#F5B7B1', text: 'kallista',					min:5.00, 		max:99999.99},
+	{color:'#CCCCCC', text: '?', isNan: true}
 ]
 
 var NPDate = (d) => {
@@ -83,7 +84,7 @@ var getSummary = (dayData, prefix) => {
 	return `${prefix} sähkö on ${getTreshold(avgPriceForCheapest12Hours).text}`;
 }
 
-var getTreshold = (data) => tresholds.filter((v) => v.min <= data && v.max >= data)[0];
+var getTreshold = (data) => tresholds.filter((v) => v.min <= data && v.max >= data)[0] || tresholds.filter((v) => v.isNan)[0];
 
 var setHourData = (id, data) => {
 	let e = document.getElementById(id);
