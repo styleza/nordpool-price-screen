@@ -9,7 +9,12 @@ Halvimmat tunnit tänään: <div id="cheap_hours"></div>
 Kalleimmat tunnit tänään: <div id="exp_hours"></div>
 <br /><br />
 Kaikki tunnit tänään: <div id="all_hours"></div>
-
+<br /><br />
+<br /><br />
+<br /><br />
+<div id="tomorrow">
+	Kaikki tunnit Huomenna: <div id="all_hours_tomorrow"></div>
+</div>
 <script>
 var tresholds = [
 	{color:'#D5F5E3', text: 'halpaa', 					min:-99999.99, 	max:2.499},
@@ -34,7 +39,7 @@ var _mcb = (rData) => {
 	data.map((v) => 
 		v.Columns.map((v2) => {
 			let T = {};
-			T[`${NPTime(v.StartTime)}`] = (parseFloat(v2.Value.replace(",","."))/10).toFixed(2);
+			T[`${NPTime(v.StartTime)}`] = parseFloat((parseFloat(v2.Value.replace(",","."))/10).toFixed(2));
 			dailyData[NPDate(v2.Name)] = {...dailyData[NPDate(v2.Name)], ...T};
 		}
 	));
@@ -64,15 +69,19 @@ var showPrices = (dailyData) => {
 		getSortedTimesByPrice(dailyData[getDateAndTime(0)[0]]).slice(0,5),
 		dailyData[getDateAndTime(0)[0]]);
 	setRangedData('exp_hours',
-		getSortedTimesByPrice(dailyData[getDateAndTime(0)[0]]).slice(-5),
+		getSortedTimesByPrice(dailyData[getDateAndTime(0)[0]]).slice(-5).reverse(),
 		dailyData[getDateAndTime(0)[0]]);
 	setRangedData('all_hours',
 		Object.keys(dailyData[getDateAndTime(0)[0]]).sort(),
 		dailyData[getDateAndTime(0)[0]]);
 	if(getDateAndTime(24)[0] in dailyData){
 		setText('writted_summary',getSummary(dailyData[getDateAndTime(0)[0]],'Tänään') + getSummary(dailyData[getDateAndTime(24)[0]],', huomenna'));
+		setRangedData('all_hours_tomorrow',
+			Object.keys(dailyData[getDateAndTime(24)[0]]).sort(),
+			dailyData[getDateAndTime(24)[0]]);
 	} else {
 		setText('writted_summary',getSummary(dailyData[getDateAndTime(0)[0]],'Tänään'));
+		document.getElementById("tomorrow").style.display = 'none';
 	}
 }
 
