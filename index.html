@@ -112,7 +112,11 @@ var setRangedData = (id, sortedKeys, dayData) => {
 		e.append(e2);
 	});
 }
+
+var scriptElement = document.createElement("script");
+scriptElement.setAttribute("src","https://json2jsonp.com/?callback=_mcb&url=https%3A%2F%2Fwww.nordpoolgroup.com%2Fapi%2Fmarketdata%2Fpage%2F35%3Fcurrency%3D%2C%2C%2CEUR%26nosense%3D"+ Math.round(Math.random()*1000000))
+document.body.appendChild(scriptElement);
+
 </script>
-<script src="https://json2jsonp.com/?callback=_mcb&url=https%3A%2F%2Fwww.nordpoolgroup.com%2Fapi%2Fmarketdata%2Fpage%2F35%3Fcurrency%3D%2C%2C%2CEUR"></script>
 </body>
 </html>
